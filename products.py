@@ -46,7 +46,7 @@ class Product:
 
     def show(self):
         '''Returns a string that represents the product'''
-        print(f"{self.name}, Price: {self.price}, Quantity: {self.quantity}")
+        return f"{self.name}, Price: {self.price}, Quantity: {self.quantity}"
 
     def buy(self, quantity):
         '''Buys a given quantity of the product.
