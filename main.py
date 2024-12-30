@@ -2,7 +2,7 @@ from products import Product
 from store import Store
 
 def start():
-    '''shows the menu to the user'''
+    '''Shows the menu to the user'''
     print("     Store menu\n"
           "     __________")
     print("1. List all products in store\n"
@@ -10,6 +10,7 @@ def start():
           "3. Make an order\n"
           "4. Quit")
 def main():
+    '''Runs the program, handles user input'''
     # setup initial stock of inventory
     product_list = [ Product("MacBook Air M2", price=1450, quantity=100),
                  Product("Bose QuietComfort Earbuds", price=250, quantity=500),
@@ -71,12 +72,9 @@ def main():
 
             print(f"***********\n Order made! Total payment: {best_buy.order(shopping_list)}")
 
-
         if user_choice == "4":
             break
 
-        else:
-            continue
 
 
 if __name__ == "__main__":
