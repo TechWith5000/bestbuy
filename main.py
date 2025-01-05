@@ -1,3 +1,4 @@
+import store
 from products import Product
 from store import Store
 
@@ -44,15 +45,21 @@ def main():
 
                 while True:
                     product_choice = input("Which product # do you want?")
-
+                    # check whether user quits the order
                     if product_choice == "":
                         order_running = False
                         break # break the inner while loop
+                    # check whether index is in the range of available products
+                    if int(product_choice) > len(products):
+                        print(f"# {product_choice} is not a valid product")
+                        continue
 
                     product_amount = input("What amount do you want?")
+                    # check whether user quits the order
                     if product_amount == "":
                         order_running = False
                         break # break the inner while loop
+
 
                     try:
                         # convert user input to an index
