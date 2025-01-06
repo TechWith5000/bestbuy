@@ -18,7 +18,7 @@ def main():
                  Product("Google Pixel 7", price=500, quantity=250)
                ]
     best_buy = Store(product_list)
-    products = best_buy.get_all_products()
+    products_var = best_buy.get_all_products()
 
 
     while True:
@@ -26,7 +26,11 @@ def main():
         user_choice = input("Please enter a number: ")
 
         if user_choice == "1":
-            for i, product in enumerate(products, start=1):
+            # testing is_active for products in the shop
+            #for product in products_var:
+                #print(product.is_active())
+            #print(products_var)
+            for i, product in enumerate(products_var, start=1):
                 print(f" {i}. {product.show()}")
             print("")
 
@@ -38,7 +42,7 @@ def main():
             order_running = True
             while order_running:
                 print("------")
-                for i, product in enumerate(products, start=1):
+                for i, product in enumerate(products_var, start=1):
                     print(f" {i}. {product.show()}")
                 print("------\n")
                 print("When you want to finish order, enter empty text.")
@@ -49,8 +53,8 @@ def main():
                     if product_choice == "":
                         order_running = False
                         break # break the inner while loop
-                    # check whether index is in the range of available products
-                    if int(product_choice) > len(products):
+                    # check whether index is in the range of available products_var
+                    if int(product_choice) > len(products_var) or int(product_choice) < 1:
                         print(f"# {product_choice} is not a valid product")
                         continue
 
@@ -64,10 +68,17 @@ def main():
                     try:
                         # convert user input to an index
                         selected_product_index = int(product_choice) - 1
-                        selected_product = products[selected_product_index]
+                        selected_product = products_var[selected_product_index]
                         product_amount = int(product_amount)
-                        shopping_list.append((selected_product, product_amount))
-                        print("Product added to list!")
+
+                        # add tuple (product, amount) to shopping list, if amount available
+                        if product_amount <= selected_product.get_quantity():
+                            shopping_list.append((selected_product, product_amount))
+                            print("Product added to list!")
+                        else:
+                            print(f"Only {selected_product.get_quantity()} available")
+                            continue
+
 
                     except ValueError:
                         print("Error adding product!")
@@ -77,7 +88,13 @@ def main():
                 if not order_running:
                     break
 
-            print(f"***********\n Order made! Total payment: {best_buy.order(shopping_list)}")
+            try:
+                total_price = best_buy.order(shopping_list)
+                print(f"***********\n Order made! Total payment: {total_price}")
+
+            except ValueError:
+                print("Not enough products_var in stock, please make your order again with a smaller amount.")
+                continue
 
         if user_choice == "4":
             break

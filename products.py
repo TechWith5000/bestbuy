@@ -13,7 +13,7 @@ class Product:
         self.quantity = quantity
         if quantity < 0:
             raise ValueError ("Quantity cannot be negative.")
-        is_active = True
+        self.active = True
 
     def get_quantity(self):
         '''Getter function for quantity.
@@ -24,25 +24,25 @@ class Product:
         '''
         Setter function for quantity. If quantity reaches 0, deactivates the product.
         '''
-        self.quantity += quantity
+        self.quantity = quantity
         if self.quantity <= 0:
-            self.deactivate(self)
+            self.deactivate()
 
     def is_active(self):
         '''Getter function for active.
         Returns True if the product is active, otherwise False.'''
-        if self.is_active:
+        if self.active:
             return True
         else:
             return False
 
     def activate(self):
         '''Activates the product.'''
-        self.is_active = True
+        self.active = True
 
     def deactivate(self):
         '''Deactivates the product.'''
-        self.is_active = False
+        self.active = False
 
     def show(self):
         '''Returns a string that represents the product'''
@@ -55,6 +55,9 @@ class Product:
         In case of a problem (when? think about it), raises an Exception.'''
         if (self.quantity - quantity) < 0:
             raise ValueError ("Not enough in stock.")
-        self.quantity -= quantity
+        # Adjust quantity with setter method ( equivalent to self.quantity -= quantity)
+        quantity_in_stock = self.get_quantity()
+        self.set_quantity(quantity_in_stock - quantity)
+        # calculate the price
         total_price = self.price * quantity
         return float(total_price)

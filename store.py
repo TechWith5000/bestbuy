@@ -8,12 +8,12 @@ class Store:
 
     def add_product(self, product):
         '''Adds a product to the store'''
-        Store.product_list.append(product)
+        self.product_list.append(product)
 
     def remove_product(self, product):
         '''Removes a product from store'''
-        if product in Store.product_list:
-            Store.product_list.remove(product)
+        if product in self.product_list:
+            self.product_list.remove(product)
 
     def get_total_quantity(self):
         '''Returns how many items are in the store in total'''
@@ -30,6 +30,7 @@ class Store:
             if product.is_active():
                 active_products.append(product)
         return active_products
+
 
     def order(self, shopping_list):
         '''Gets a list of tuples, where each tuple has 2 items:
