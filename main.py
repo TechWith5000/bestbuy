@@ -10,6 +10,33 @@ def start():
           "2. Show total amount in store\n"
           "3. Make an order\n"
           "4. Quit")
+
+def show_products(products):
+    print("------")
+    for i, product in enumerate(products, start=1):
+        print(f" {i}. {product.show()}")
+    print("------\n")
+
+def index_not_in_range(products, product_choice):
+    if int(product_choice) > len(products) or int(product_choice) < 1:
+        print(f"# {product_choice} is not a valid product")
+        return True
+
+def product_amount_is_available(product_choice, products, product_amount, shopping_list):
+    # convert user input to an index
+    selected_product_index = int(product_choice) - 1
+    selected_product = products[selected_product_index]
+    product_amount = int(product_amount)
+
+    # add tuple (product, amount) to shopping list, if amount available
+    if product_amount <= selected_product.get_quantity():
+        shopping_list.append((selected_product, product_amount))
+        print("Product added to list!")
+        return True
+    else:
+        print(f"Only {selected_product.get_quantity()} available")
+        return False
+
 def main():
     '''Runs the program, handles user input'''
     # setup initial stock of inventory
@@ -26,13 +53,7 @@ def main():
         user_choice = input("Please enter a number: ")
 
         if user_choice == "1":
-            # testing is_active for products in the shop
-            #for product in products_var:
-                #print(product.is_active())
-            #print(products_var)
-            for i, product in enumerate(products_var, start=1):
-                print(f" {i}. {product.show()}")
-            print("")
+            show_products(products_var)
 
         if user_choice == "2":
             print(best_buy.get_total_quantity())
@@ -41,10 +62,7 @@ def main():
             shopping_list = []
             order_running = True
             while order_running:
-                print("------")
-                for i, product in enumerate(products_var, start=1):
-                    print(f" {i}. {product.show()}")
-                print("------\n")
+                show_products(products_var)
                 print("When you want to finish order, enter empty text.")
 
                 while True:
@@ -54,8 +72,7 @@ def main():
                         order_running = False
                         break # break the inner while loop
                     # check whether index is in the range of available products_var
-                    if int(product_choice) > len(products_var) or int(product_choice) < 1:
-                        print(f"# {product_choice} is not a valid product")
+                    if index_not_in_range(products_var, product_choice):
                         continue
 
                     product_amount = input("What amount do you want?")
@@ -66,17 +83,7 @@ def main():
 
 
                     try:
-                        # convert user input to an index
-                        selected_product_index = int(product_choice) - 1
-                        selected_product = products_var[selected_product_index]
-                        product_amount = int(product_amount)
-
-                        # add tuple (product, amount) to shopping list, if amount available
-                        if product_amount <= selected_product.get_quantity():
-                            shopping_list.append((selected_product, product_amount))
-                            print("Product added to list!")
-                        else:
-                            print(f"Only {selected_product.get_quantity()} available")
+                        if not product_amount_is_available(product_choice, products_var, product_amount, shopping_list):
                             continue
 
 
