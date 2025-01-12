@@ -96,6 +96,9 @@ def main():
                 print("Not enough products_var in stock, please make your order again with a smaller amount.")
                 continue
 
+            # update the product list after each order
+            products_var = best_buy.get_all_products()
+
         if user_choice == "4":
             break
 
